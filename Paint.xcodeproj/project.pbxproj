@@ -13,6 +13,7 @@
 		17188BEC1E9B89AB009732FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17188BEB1E9B89AB009732FB /* Assets.xcassets */; };
 		17188BEF1E9B89AB009732FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17188BED1E9B89AB009732FB /* LaunchScreen.storyboard */; };
 		17E06B641E9BC39500F68B9C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E06B631E9BC39500F68B9C /* SettingsViewController.swift */; };
+		BCFD71CE1E9BDC99009D03CB /* DrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFD71CD1E9BDC99009D03CB /* DrawView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		17188BEE1E9B89AB009732FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		17188BF01E9B89AB009732FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17E06B631E9BC39500F68B9C /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		BCFD71CD1E9BDC99009D03CB /* DrawView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				17188BED1E9B89AB009732FB /* LaunchScreen.storyboard */,
 				17188BF01E9B89AB009732FB /* Info.plist */,
 				17E06B631E9BC39500F68B9C /* SettingsViewController.swift */,
+				BCFD71CD1E9BDC99009D03CB /* DrawView.swift */,
 			);
 			path = Paint;
 			sourceTree = "<group>";
@@ -142,6 +145,7 @@
 			files = (
 				17188BE71E9B89AB009732FB /* ViewController.swift in Sources */,
 				17188BE51E9B89AB009732FB /* AppDelegate.swift in Sources */,
+				BCFD71CE1E9BDC99009D03CB /* DrawView.swift in Sources */,
 				17E06B641E9BC39500F68B9C /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
