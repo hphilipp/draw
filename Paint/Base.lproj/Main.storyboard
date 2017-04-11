@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Ghg-P5-QEn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Ghg-P5-QEn">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -25,9 +26,14 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BaV-s3-HoX">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
-                                    <barButtonItem image="Pen" id="E2G-81-zot" userLabel="Pen">
+                                    <barButtonItem image="Brush" id="E2G-81-zot" userLabel="Pen">
                                         <connections>
                                             <action selector="PenClicked:" destination="BYZ-38-t0r" id="I7d-zZ-KTN"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem image="Line" id="Krc-y5-9hh" userLabel="LineWidth">
+                                        <connections>
+                                            <action selector="ChangeLineWidth:" destination="BYZ-38-t0r" id="PsT-tb-FJ4"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem image="Color" id="r9v-eV-gFh" userLabel="Color">
@@ -61,16 +67,25 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Zeichnen" id="Oq7-5l-42p">
-                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="rAP-CS-U7N">
-                            <connections>
-                                <action selector="resetDrawing:" destination="BYZ-38-t0r" id="W6v-YV-Yf1"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="trash" id="rAP-CS-U7N">
+                                <connections>
+                                    <action selector="resetDrawing:" destination="BYZ-38-t0r" id="W6v-YV-Yf1"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="reply" id="wYV-Pa-tOb">
+                                <connections>
+                                    <action selector="Redo:" destination="BYZ-38-t0r" id="6nc-Nj-6zb"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="colorBtn" destination="r9v-eV-gFh" id="LwC-vY-pUp"/>
+                        <outlet property="drawView" destination="88T-kO-wLr" id="407-wJ-4Rp"/>
                         <outlet property="penBtn" destination="E2G-81-zot" id="AdH-S9-LfX"/>
+                        <outlet property="widthButton" destination="Krc-y5-9hh" id="xz9-pf-6jF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -116,8 +131,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Brush" width="16" height="16"/>
         <image name="Color" width="50" height="50"/>
-        <image name="Pen" width="50" height="50"/>
+        <image name="Line" width="100" height="100"/>
         <image name="Settings" width="50" height="50"/>
     </resources>
 </document>

@@ -13,61 +13,97 @@ class ViewController: UIViewController {
     //TODO:
     //save pen and color in Class and change button tint to saved color
     
+    @IBOutlet var drawView: DrawView!
     @IBOutlet var colorBtn: UIBarButtonItem!
     @IBOutlet var penBtn: UIBarButtonItem!
-    
-    var color = UIColor.black
+    @IBOutlet var widthButton: UIBarButtonItem!
     
     @IBAction func resetDrawing(_ sender: UIBarButtonItem) {
-        //TODO:
-        //Implement reset drawing
-    
+        drawView.resetDrawing()
     }
     
+    @IBAction func Redo(_ sender: Any) {
+        drawView.redoPath()
+    }
+    
+    
     @IBAction func PenClicked(_ sender: UIBarButtonItem) {
-        //TODO: implement Popup for Pen
+        let popup = UIAlertController(title: "Stiftauswahl", message: "Wählen sie die gewünschte Stiftart", preferredStyle: .actionSheet)
         
-        let popup = UIAlertController(title: "Stiftauswahl", message: "Wählen sie den gewünschten Stift und die Strichstärke", preferredStyle: .actionSheet)
-        
-        let back = UIAlertAction(title: "Abbrechen", style: .cancel) { _ in
-            self.navigationController?.popViewController(animated: true)
-        }
+        let back = UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil)
         
         //Todo:
         //Handle saving the new pen and thickness
-        let thickness = UIAlertAction(title: "Strichdicke", style: .default) { (action) in
-            
-            
+        let linear = UIAlertAction(title: "Geraden", style: .default) { (action) in
+            self.drawView.setLineStyle(setting: .linear)
+            self.penBtn.image = #imageLiteral(resourceName: "Ruler")
+        }
+        let free = UIAlertAction(title: "Freihand", style: .default) { (action) in
+            self.drawView.setLineStyle(setting: .freeHand)
+            self.penBtn.image = #imageLiteral(resourceName: "Brush")
         }
         
-        popup.addAction(thickness)
+        
+        popup.addAction(linear)
+        popup.addAction(free)
         popup.addAction(back)
         
         present(popup, animated: true)
     }
     
+    @IBAction func ChangeLineWidth(_ sender: UIBarButtonItem) {
+        
+        //get the Slider values from UserDefaults
+        let defaultSliderValue : Float = Float(self.drawView.lineWidth)
+        
+        //create the Alert message with extra return spaces
+        let sliderAlert = UIAlertController(title: "Strichstärke", message: "Hier können Sie die Strichstärke einstellen\n\n\n\n\n\n", preferredStyle: .actionSheet)
+        
+        //create a Slider and fit within the extra message spaces
+        //add the Slider to a Subview of the sliderAlert
+        let slider = UISlider(frame:CGRect(x: 10, y: 100, width: 250, height: 80))
+        slider.minimumValue = 1
+        slider.maximumValue = 40
+        slider.value = defaultSliderValue
+        slider.isContinuous = true
+        slider.tintColor = self.drawView.color
+        sliderAlert.view.addSubview(slider)
+        
+        //OK button action
+        let sliderAction = UIAlertAction(title: "Ok", style: .default, handler: { (result : UIAlertAction) -> Void in
+            self.drawView.setLineWidth(width: slider.value)
+        })
+        
+        //Cancel button action
+        let back = UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil)
+        
+        //Add buttons to sliderAlert
+        sliderAlert.addAction(sliderAction)
+        sliderAlert.addAction(back)
+        
+        //present the sliderAlert message
+        self.present(sliderAlert, animated: true, completion: nil)
+    }
+    
+    
     @IBAction func ColorClicked(_ sender: UIBarButtonItem) {
-        //TODO: implement Popup for Color
+        let popup = UIAlertController(title: "Farbauswahl", message: "Wählen sie die gewünschte Farbe\n\n\n\n\n\n\n\n\n\n\n\n\n", preferredStyle: .actionSheet)
         
-        let popup = UIAlertController(title: "Farbauswahl", message: "Wählen sie die gewünschte Farbe", preferredStyle: .actionSheet)
+        //credits to johankasperi
+        let colorPicker = SwiftHSVColorPicker(frame: CGRect(x: 0, y: 80, width: 300, height: 220))
+        popup.view.addSubview(colorPicker)
         
-        let back = UIAlertAction(title: "Abbrechen", style: .cancel) { _ in
-            self.navigationController?.popViewController(animated: true)
-        }
+        colorPicker.setViewColor(UIColor.red)
         
-        let black = UIAlertAction(title: "Schwarz", style: .default) { (action) in
-            
-            self.color = UIColor.black
-            self.colorBtn.tintColor = self.color
-        }
-        let green = UIAlertAction(title: "Grün", style: .default) { (action) in
-            
-            self.color = UIColor.green
-            self.colorBtn.tintColor = self.color
-        }
+        let back = UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil)
         
-        popup.addAction(black)
-        popup.addAction(green)
+        //OK button action
+        let setColor = UIAlertAction(title: "Ok", style: .default, handler: { (result : UIAlertAction) -> Void in
+            self.colorBtn.tintColor = colorPicker.color
+            self.drawView.color = colorPicker.color
+        })
+        
+        popup.addAction(setColor)
         popup.addAction(back)
         
         present(popup, animated: true)
@@ -76,6 +112,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        colorBtn.tintColor = drawView.color
     }
 }
 

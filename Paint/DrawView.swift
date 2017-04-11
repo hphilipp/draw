@@ -20,15 +20,66 @@ class DrawView : UIView {
     
     var pathList : [UIBezierPath] = []
     var startPoint: CGPoint!
-    var draw : Bool!
+    var actualPath: UIBezierPath!
+    var actualPathNumber = 0
+    var colorList : [UIColor] = []
+    
+    enum lineStyle {
+        case linear
+        case freeHand
+        //case polygon
+    }
+    
+    var style = lineStyle.freeHand
+    
+    var color = UIColor.black
+    
+    var lineWidth : CGFloat = 3.0
  
+    func setLineStyle(setting : lineStyle)
+    {
+        style = setting
+    }
+    
+    func setColor(color : UIColor)
+    {
+        self.color = color
+    }
+    
+    func setLineWidth(width: Float)
+    {
+        self.lineWidth = CGFloat(width)
+    }
+    
+    func resetDrawing()
+    {
+        pathList.removeAll()
+        colorList.removeAll()
+        actualPathNumber = 0
+        setNeedsDisplay()
+    }
+    
+    func redoPath()
+    {
+        if actualPathNumber > 0 {
+            pathList.removeLast()
+            colorList.removeLast()
+            actualPathNumber = actualPathNumber - 1
+            setNeedsDisplay()
+        }
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>,
                       with event: UIEvent?)
     {
         if let touch = touches.first as UITouch? {
             startPoint = touch.location(in: self)
-            draw = true
+            
+            actualPath = UIBezierPath()
+            actualPath.lineWidth = lineWidth
+            actualPath.move(to: startPoint)
+            pathList.append(actualPath)
+            colorList.append(color)
         }
         
         
@@ -38,29 +89,38 @@ class DrawView : UIView {
         let image = renderer.image { ctx in
             
         }
- */
+        */
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>,
-                               with event: UIEvent?)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
     {
+        actualPathNumber = actualPathNumber + 1
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first as UITouch? {
-            print(pathList.count)
-            
-            let endPoint = touch.location(in: self)
-            let newPath = UIBezierPath()
-            newPath.lineWidth = 3
-            newPath.move(to: startPoint)
-            newPath.addLine(to: endPoint)
-            if pathList.count > 0 && !draw {
-                pathList.removeLast()
-                draw = false
-            }
-            pathList.append(newPath)
-            setNeedsDisplay()
+        
+        switch style {
+            case lineStyle.linear:
+                if let touch = touches.first as UITouch? {
+                    let endPoint = touch.location(in: self)
+                    
+                    pathList[actualPathNumber] = { () -> UIBezierPath in
+                        let tempPath = UIBezierPath()
+                        tempPath.lineWidth = lineWidth
+                        tempPath.move(to: startPoint)
+                        tempPath.addLine(to: endPoint)
+                        return tempPath
+                    }()
+                    
+                    setNeedsDisplay()
+                }
+            case lineStyle.freeHand:
+                if let touch = touches.first as UITouch? {
+                    let endPoint = touch.location(in: self)
+                    
+                    actualPath.addLine(to: endPoint)
+                    setNeedsDisplay()
+                }
         }
     }
 
@@ -109,13 +169,11 @@ class DrawView : UIView {
         
         //draw the stroke
         pathList.append(plusPath)
- */
-        UIColor.green.setFill()
+        */
         
-        for path in pathList {
-            path.fill()
-            path.stroke()
+        for i in 0 ..< pathList.count {
+            colorList[i].setStroke()
+            pathList[i].stroke()
         }
-        
     }
 }
