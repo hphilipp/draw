@@ -67,6 +67,11 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Zeichnen" id="Oq7-5l-42p">
+                        <barButtonItem key="leftBarButtonItem" systemItem="save" id="bNt-ut-8ND">
+                            <connections>
+                                <action selector="save:" destination="BYZ-38-t0r" id="TlK-en-pOz"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="trash" id="rAP-CS-U7N">
                                 <connections>

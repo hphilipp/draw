@@ -26,6 +26,11 @@ class ViewController: UIViewController {
         drawView.redoPath()
     }
     
+    @IBAction func save(_ sender: UIBarButtonItem) {
+        let img = drawView.asImage()
+        
+        UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
+    }
     
     @IBAction func PenClicked(_ sender: UIBarButtonItem) {
         let popup = UIAlertController(title: "Stiftauswahl", message: "Wählen sie die gewünschte Stiftart", preferredStyle: .actionSheet)
