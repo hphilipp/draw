@@ -9,41 +9,59 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    //TODO:
-    //save pen and color in Class and change button tint to saved color
-    
     @IBOutlet var drawView: DrawView!
     @IBOutlet var colorBtn: UIBarButtonItem!
     @IBOutlet var penBtn: UIBarButtonItem!
     @IBOutlet var widthButton: UIBarButtonItem!
     
     @IBAction func resetDrawing(_ sender: UIBarButtonItem) {
-        drawView.resetDrawing()
+        if drawView.pathList.count > 0 {
+            let popup = UIAlertController(title: "Bild löschen", message: "Möchten Sie wirklich das gesamte Bild löschen?", preferredStyle: .alert)
+            
+            let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
+            
+            let delete = UIAlertAction(title: "Ja", style: .destructive) { (action) in
+                self.drawView.resetDrawing()
+            }
+            
+            popup.addAction(delete)
+            popup.addAction(back)
+            
+            present(popup, animated: true)
+        }
     }
     
-    @IBAction func Redo(_ sender: Any) {
+    @IBAction func Redo(_ sender: UIBarButtonItem) {
         drawView.redoPath()
+    }
+    @IBAction func Undo(_ sender: UIBarButtonItem) {
+        drawView.undoPath()
     }
     
     @IBAction func save(_ sender: UIBarButtonItem) {
-        let img = drawView.asImage()
-        
-        UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
-    }
-    @IBAction func EraserClicked(_ sender: UIBarButtonItem){
-        
-        //TODO: Use Background Color
-        drawView.color = UIColor.white
+        if drawView.pathList.count > 0 {
+            let popup = UIAlertController(title: "Bild speichern", message: "Möchten Sie das Bild ins Fotoalbum speichern?", preferredStyle: .alert)
+            
+            let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
+            
+            let delete = UIAlertAction(title: "Ja", style: .default) { (action) in
+                let img = self.drawView.asImage()
+                
+                UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
+            }
+            
+            popup.addAction(delete)
+            popup.addAction(back)
+            
+            present(popup, animated: true)
+        }
     }
     
     @IBAction func PenClicked(_ sender: UIBarButtonItem) {
-        let popup = UIAlertController(title: "Stiftauswahl", message: "Wählen sie die gewünschte Stiftart", preferredStyle: .actionSheet)
+        let popup = UIAlertController(title: "Stiftauswahl", message: "Wählen Sie die gewünschte Stiftart", preferredStyle: .actionSheet)
         
         let back = UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil)
         
-        //Todo:
-        //Handle saving the new pen and thickness
         let linear = UIAlertAction(title: "Geraden", style: .default) { (action) in
             self.drawView.setLineStyle(setting: .linear)
             self.penBtn.image = #imageLiteral(resourceName: "Ruler")
@@ -54,11 +72,16 @@ class ViewController: UIViewController {
             self.penBtn.image = #imageLiteral(resourceName: "Brush")
             self.drawView.color = self.colorBtn.tintColor!
         }
+        let eraser = UIAlertAction(title: "Radiergummi", style: .default) { (action) in
+            self.penBtn.image = #imageLiteral(resourceName: "Eraser")
+            self.drawView.color = UIColor.white
+        }
         
         
         popup.addAction(linear)
         popup.addAction(free)
         popup.addAction(back)
+        popup.addAction(eraser)
         
         present(popup, animated: true)
     }
@@ -103,9 +126,10 @@ class ViewController: UIViewController {
         
         //credits to johankasperi
         let colorPicker = SwiftHSVColorPicker(frame: CGRect(x: 0, y: 80, width: 300, height: 220))
+        
         popup.view.addSubview(colorPicker)
         
-        colorPicker.setViewColor(UIColor.red)
+        colorPicker.setViewColor(drawView.color)
         
         let back = UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil)
         
