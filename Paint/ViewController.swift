@@ -31,6 +31,11 @@ class ViewController: UIViewController {
         
         UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
     }
+    @IBAction func EraserClicked(_ sender: UIBarButtonItem){
+        
+        //TODO: Use Background Color
+        drawView.color = UIColor.white
+    }
     
     @IBAction func PenClicked(_ sender: UIBarButtonItem) {
         let popup = UIAlertController(title: "Stiftauswahl", message: "Wählen sie die gewünschte Stiftart", preferredStyle: .actionSheet)
@@ -42,10 +47,12 @@ class ViewController: UIViewController {
         let linear = UIAlertAction(title: "Geraden", style: .default) { (action) in
             self.drawView.setLineStyle(setting: .linear)
             self.penBtn.image = #imageLiteral(resourceName: "Ruler")
+            self.drawView.color = self.colorBtn.tintColor!
         }
         let free = UIAlertAction(title: "Freihand", style: .default) { (action) in
             self.drawView.setLineStyle(setting: .freeHand)
             self.penBtn.image = #imageLiteral(resourceName: "Brush")
+            self.drawView.color = self.colorBtn.tintColor!
         }
         
         
