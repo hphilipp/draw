@@ -30,11 +30,11 @@
 		17188BEE1E9B89AB009732FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		17188BF01E9B89AB009732FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17E06B631E9BC39500F68B9C /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		17FE70791E9D134300E30F8F /* BrightnessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BrightnessView.swift; path = "../../../../../../Downloads/SwiftHSVColorPicker-master/Source/BrightnessView.swift"; sourceTree = "<group>"; };
-		17FE707A1E9D134300E30F8F /* ColorUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorUtils.swift; path = "../../../../../../Downloads/SwiftHSVColorPicker-master/Source/ColorUtils.swift"; sourceTree = "<group>"; };
-		17FE707B1E9D134300E30F8F /* ColorWheel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorWheel.swift; path = "../../../../../../Downloads/SwiftHSVColorPicker-master/Source/ColorWheel.swift"; sourceTree = "<group>"; };
-		17FE707C1E9D134300E30F8F /* SelectedColorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectedColorView.swift; path = "../../../../../../Downloads/SwiftHSVColorPicker-master/Source/SelectedColorView.swift"; sourceTree = "<group>"; };
-		17FE707D1E9D134300E30F8F /* SwiftHSVColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftHSVColorPicker.swift; path = "../../../../../../Downloads/SwiftHSVColorPicker-master/Source/SwiftHSVColorPicker.swift"; sourceTree = "<group>"; };
+		17FE70791E9D134300E30F8F /* BrightnessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrightnessView.swift; sourceTree = "<group>"; };
+		17FE707A1E9D134300E30F8F /* ColorUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorUtils.swift; sourceTree = "<group>"; };
+		17FE707B1E9D134300E30F8F /* ColorWheel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorWheel.swift; sourceTree = "<group>"; };
+		17FE707C1E9D134300E30F8F /* SelectedColorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedColorView.swift; sourceTree = "<group>"; };
+		17FE707D1E9D134300E30F8F /* SwiftHSVColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftHSVColorPicker.swift; sourceTree = "<group>"; };
 		BCFD71CD1E9BDC99009D03CB /* DrawView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
