@@ -29,6 +29,9 @@ class ViewController: UIViewController {
             
             present(popup, animated: true)
         }
+        else{
+            Toast.showMessage(message: "Leeres Bild kann nicht gelöscht werden")
+        }
     }
     
     @IBAction func Redo(_ sender: UIBarButtonItem) {
@@ -48,12 +51,16 @@ class ViewController: UIViewController {
                 let img = self.drawView.asImage()
                 
                 UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
+                Toast.showMessage(message: "Bild gespeichert")
             }
             
             popup.addAction(delete)
             popup.addAction(back)
             
             present(popup, animated: true)
+        }
+        else {
+            Toast.showMessage(message: "Kein Bild vorhanden")
         }
     }
     
@@ -62,7 +69,7 @@ class ViewController: UIViewController {
         
         let back = UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil)
         
-        let linear = UIAlertAction(title: "Geraden", style: .default) { (action) in
+        let linear = UIAlertAction(title: "Lineal", style: .default) { (action) in
             self.drawView.setLineStyle(setting: .linear)
             self.penBtn.image = #imageLiteral(resourceName: "Ruler")
             self.drawView.color = self.colorBtn.tintColor!
@@ -73,6 +80,7 @@ class ViewController: UIViewController {
             self.drawView.color = self.colorBtn.tintColor!
         }
         let eraser = UIAlertAction(title: "Radiergummi", style: .default) { (action) in
+            self.drawView.setLineStyle(setting: .freeHand)
             self.penBtn.image = #imageLiteral(resourceName: "Eraser")
             self.drawView.color = UIColor.white
         }
@@ -96,7 +104,9 @@ class ViewController: UIViewController {
         
         //create a Slider and fit within the extra message spaces
         //add the Slider to a Subview of the sliderAlert
-        let slider = UISlider(frame:CGRect(x: 10, y: 100, width: 250, height: 80))
+        let margin:CGFloat = 10.0
+        let rect = CGRect(x: margin, y: 100, width: sliderAlert.view.bounds.size.width - margin * 4.0, height: 80)
+        let slider = UISlider(frame: rect)
         slider.minimumValue = 1
         slider.maximumValue = 40
         slider.value = defaultSliderValue
@@ -125,7 +135,9 @@ class ViewController: UIViewController {
         let popup = UIAlertController(title: "Farbauswahl", message: "Wählen sie die gewünschte Farbe\n\n\n\n\n\n\n\n\n\n\n\n\n", preferredStyle: .actionSheet)
         
         //credits to johankasperi
-        let colorPicker = SwiftHSVColorPicker(frame: CGRect(x: 0, y: 80, width: 300, height: 220))
+        let margin:CGFloat = 10.0
+        let rect = CGRect(x: margin, y: 80, width: popup.view.bounds.size.width - margin * 4.0, height: 220)
+        let colorPicker = SwiftHSVColorPicker(frame: rect)
         
         popup.view.addSubview(colorPicker)
         
@@ -148,6 +160,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
         
         colorBtn.tintColor = drawView.color
     }

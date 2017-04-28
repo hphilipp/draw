@@ -27,19 +27,16 @@ class DrawView : UIView {
     var redo = false
     var lastRemovedPath: UIBezierPath!
     var lastRemovedColor: UIColor!
-    
     enum lineStyle {
         case linear
         case freeHand
         //case polygon
     }
-    
     var style = lineStyle.freeHand
-    
     var color = UIColor.black
-    
     var lineWidth : CGFloat = 3.0
  
+    
     func setLineStyle(setting : lineStyle)
     {
         style = setting
@@ -77,6 +74,9 @@ class DrawView : UIView {
             actualPathNumber = actualPathNumber - 1
             setNeedsDisplay()
         }
+        else {
+            Toast.showMessage(message: "Undo nicht möglich")
+        }
     }
     
     func redoPath()
@@ -87,6 +87,9 @@ class DrawView : UIView {
             colorList.append(lastRemovedColor!)
             actualPathNumber = actualPathNumber + 1
             setNeedsDisplay()
+        }
+        else {
+            Toast.showMessage(message: "Redo nicht möglich")
         }
     }
     
