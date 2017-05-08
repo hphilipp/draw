@@ -12,6 +12,7 @@
 		17188BEA1E9B89AB009732FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17188BE81E9B89AB009732FB /* Main.storyboard */; };
 		17188BEC1E9B89AB009732FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17188BEB1E9B89AB009732FB /* Assets.xcassets */; };
 		17188BEF1E9B89AB009732FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17188BED1E9B89AB009732FB /* LaunchScreen.storyboard */; };
+		175B40F91EC0B182001EA453 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175B40F81EC0B182001EA453 /* Toast.swift */; };
 		17E06B641E9BC39500F68B9C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E06B631E9BC39500F68B9C /* SettingsViewController.swift */; };
 		17FE707E1E9D134300E30F8F /* BrightnessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FE70791E9D134300E30F8F /* BrightnessView.swift */; };
 		17FE707F1E9D134300E30F8F /* ColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FE707A1E9D134300E30F8F /* ColorUtils.swift */; };
@@ -29,6 +30,7 @@
 		17188BEB1E9B89AB009732FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		17188BEE1E9B89AB009732FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		17188BF01E9B89AB009732FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		175B40F81EC0B182001EA453 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		17E06B631E9BC39500F68B9C /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		17FE70791E9D134300E30F8F /* BrightnessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrightnessView.swift; sourceTree = "<group>"; };
 		17FE707A1E9D134300E30F8F /* ColorUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorUtils.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 		17188BE31E9B89AB009732FB /* Paint */ = {
 			isa = PBXGroup;
 			children = (
+				175B40F81EC0B182001EA453 /* Toast.swift */,
 				17FE70791E9D134300E30F8F /* BrightnessView.swift */,
 				17FE707A1E9D134300E30F8F /* ColorUtils.swift */,
 				17FE707B1E9D134300E30F8F /* ColorWheel.swift */,
@@ -164,6 +167,7 @@
 				17FE70821E9D134300E30F8F /* SwiftHSVColorPicker.swift in Sources */,
 				17FE70801E9D134300E30F8F /* ColorWheel.swift in Sources */,
 				17FE70811E9D134300E30F8F /* SelectedColorView.swift in Sources */,
+				175B40F91EC0B182001EA453 /* Toast.swift in Sources */,
 				17E06B641E9BC39500F68B9C /* SettingsViewController.swift in Sources */,
 				17FE707E1E9D134300E30F8F /* BrightnessView.swift in Sources */,
 			);
