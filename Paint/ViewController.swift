@@ -8,14 +8,14 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     @IBOutlet var drawView: DrawView!
     @IBOutlet var colorBtn: UIBarButtonItem!
     @IBOutlet var penBtn: UIBarButtonItem!
     @IBOutlet var widthButton: UIBarButtonItem!
     
     @IBAction func resetDrawing(_ sender: UIBarButtonItem) {
-        if drawView.pathList.count > 0 {
+        if drawView.pathList.count > 0 && drawView.backgroundColor != UIColor.white {
             let popup = UIAlertController(title: "Bild löschen", message: "Möchten Sie wirklich das gesamte Bild löschen?", preferredStyle: .alert)
             
             let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
@@ -64,6 +64,38 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func load(_ sender: UIBarButtonItem) {
+        guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
+            return
+        }
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = false
+        
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any])
+    {
+        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let resizedImage = imageWithImage(image: chosenImage, scaledToSize: CGSize(width: drawView.frame.width, height: drawView.frame.height))
+        drawView.setBackgroundColor(color: UIColor(patternImage: resizedImage))
+        dismiss(animated:true, completion: nil)
+    }
+    
+    func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
+        image.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: newSize.width, height: newSize.height)))
+        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+    
     @IBAction func PenClicked(_ sender: UIBarButtonItem) {
         let popup = UIAlertController(title: "Stiftauswahl", message: "Wählen Sie die gewünschte Stiftart", preferredStyle: .actionSheet)
         
@@ -82,7 +114,7 @@ class ViewController: UIViewController {
         let eraser = UIAlertAction(title: "Radiergummi", style: .default) { (action) in
             self.drawView.setLineStyle(setting: .freeHand)
             self.penBtn.image = #imageLiteral(resourceName: "Eraser")
-            self.drawView.color = UIColor.white
+            self.drawView.color = self.drawView.backgroundColor!
         }
         
         
@@ -161,8 +193,16 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        
         colorBtn.tintColor = drawView.color
     }
 }
 
+extension ViewController : SettingsViewControllerDelegate {
+    
+    //TODO: set delegate!
+    //delegate = self
+    
+    func didSelectColor(color: UIColor) {
+        drawView.setBackgroundColor(color: color)
+    }
+}

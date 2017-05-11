@@ -24,8 +24,8 @@ class DrawView : UIView {
     var actualPathNumber = 0
     var colorList : [UIColor] = []
     var roundedEdges = true
-    var redo = false
-    var lastRemovedPath: UIBezierPath!
+    var redoPathList : [UIBezierPath] = []
+    var redoColorList : [UIColor] = []
     var lastRemovedColor: UIColor!
     enum lineStyle {
         case linear
@@ -52,6 +52,11 @@ class DrawView : UIView {
         self.color = color
     }
     
+    func setBackgroundColor(color : UIColor)
+    {
+        self.backgroundColor = color
+    }
+    
     func setLineWidth(width: Float)
     {
         self.lineWidth = CGFloat(width)
@@ -59,6 +64,7 @@ class DrawView : UIView {
     
     func resetDrawing()
     {
+        self.backgroundColor = UIColor.white;
         pathList.removeAll()
         colorList.removeAll()
         actualPathNumber = 0
@@ -68,9 +74,8 @@ class DrawView : UIView {
     func undoPath()
     {
         if actualPathNumber > 0 {
-            lastRemovedPath = pathList.removeLast()
-            lastRemovedColor = colorList.removeLast()
-            redo = true
+            redoPathList.append(pathList.removeLast())
+            redoColorList.append(colorList.removeLast())
             actualPathNumber = actualPathNumber - 1
             setNeedsDisplay()
         }
@@ -81,10 +86,9 @@ class DrawView : UIView {
     
     func redoPath()
     {
-        if redo {
-            redo = false
-            pathList.append(lastRemovedPath!)
-            colorList.append(lastRemovedColor!)
+        if redoPathList.count > 0 {
+            pathList.append(redoPathList.removeLast())
+            colorList.append(redoColorList.removeLast())
             actualPathNumber = actualPathNumber + 1
             setNeedsDisplay()
         }
