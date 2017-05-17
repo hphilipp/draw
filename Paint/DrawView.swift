@@ -67,6 +67,8 @@ class DrawView : UIView {
         self.backgroundColor = UIColor.white;
         pathList.removeAll()
         colorList.removeAll()
+        redoPathList.removeAll()
+        redoColorList.removeAll()
         actualPathNumber = 0
         setNeedsDisplay()
     }

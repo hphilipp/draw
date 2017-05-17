@@ -14,8 +14,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var penBtn: UIBarButtonItem!
     @IBOutlet var widthButton: UIBarButtonItem!
     
+    let settingsViewController = SettingsViewController();
+    
     @IBAction func resetDrawing(_ sender: UIBarButtonItem) {
-        if drawView.pathList.count > 0 && drawView.backgroundColor != UIColor.white {
+        if drawView.pathList.count > 0 || drawView.backgroundColor != UIColor.white {
             let popup = UIAlertController(title: "Bild löschen", message: "Möchten Sie wirklich das gesamte Bild löschen?", preferredStyle: .alert)
             
             let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
@@ -83,12 +85,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any])
     {
         let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-        let resizedImage = imageWithImage(image: chosenImage, scaledToSize: CGSize(width: drawView.frame.width, height: drawView.frame.height))
+        let resizedImage = imageResize(image: chosenImage, scaledToSize: CGSize(width: drawView.frame.width, height: drawView.frame.height))
         drawView.setBackgroundColor(color: UIColor(patternImage: resizedImage))
         dismiss(animated:true, completion: nil)
     }
     
-    func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
+    func imageResize(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
         image.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: newSize.width, height: newSize.height)))
         let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
@@ -193,14 +195,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        settingsViewController.delegate = self;
+        
         colorBtn.tintColor = drawView.color
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let settings = segue.destination as? SettingsViewController{
+            settings.delegate = self
+        }
+        
+        print ("test");
     }
 }
 
 extension ViewController : SettingsViewControllerDelegate {
-    
-    //TODO: set delegate!
-    //delegate = self
     
     func didSelectColor(color: UIColor) {
         drawView.setBackgroundColor(color: color)
