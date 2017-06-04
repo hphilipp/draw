@@ -71,26 +71,81 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func load(_ sender: UIBarButtonItem) {
-        let popup = UIAlertController(title: "Hintergrund setzen", message: "Möchten Sie einen Hintergrund setzen? Dabei wird das Gezeichnete gelöscht.", preferredStyle: .alert)
+        if drawView.pathList.count > 0 {
+            let popup = UIAlertController(title: "Hintergrund setzen", message: "Möchten Sie einen Hintergrund setzen? Dabei wird das Gezeichnete gelöscht.", preferredStyle: .alert)
         
-        let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
+            let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
         
-        let delete = UIAlertAction(title: "Ja", style: .destructive) { (action) in
-            guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
-                return
+            let delete = UIAlertAction(title: "Ja", style: .destructive) { (action) in
+                self.openGallery()
             }
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = .photoLibrary
-            imagePicker.allowsEditing = false
-            
-            self.present(imagePicker, animated: true, completion: nil)
+        
+            popup.addAction(delete)
+            popup.addAction(back)
+        
+            present(popup, animated: true)
         }
+        else {
+            openGallery()
+        }
+    }
+    
+    func openGallery() {
+        guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
+            Toast.showMessage(message: "Keine Gallerie vorhanden")
+            return
+        }
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = false
         
-        popup.addAction(delete)
-        popup.addAction(back)
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
+    //func for 3d touch shortcut
+    func shortcutGallery() {
+        openGallery()
+    }
+    
+    @IBAction func camera(_ sender: UIBarButtonItem) {
+        if drawView.pathList.count > 0 {
+            let popup = UIAlertController(title: "Hintergrund setzen", message: "Möchten Sie einen Hintergrund setzen? Dabei wird das Gezeichnete gelöscht.", preferredStyle: .alert)
+            
+            let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
+            
+            let delete = UIAlertAction(title: "Ja", style: .destructive) { (action) in
+                self.openCamera()
+            }
+            
+            popup.addAction(delete)
+            popup.addAction(back)
+            
+            present(popup, animated: true)
+        }
+        else {
+            openCamera()
+        }
+    }
+    
+    func openCamera() {
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            Toast.showMessage(message: "Keine Kamera vorhanden")
+            return
+        }
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .camera
+        imagePicker.allowsEditing = false
+        imagePicker.cameraCaptureMode = .photo
+        imagePicker.modalPresentationStyle = .fullScreen
         
-        present(popup, animated: true)
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
+    // func for 3d touch shortcut
+    func shortcutCamera() {
+        openCamera()
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -100,7 +155,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any])
     {
         let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-        let resizedImage = imageResize(image: chosenImage, scaledToSize: CGSize(width: drawView.frame.width, height: drawView.frame.height))
+        let resizedImage = imageResize(image: chosenImage, size: CGSize(width: drawView.frame.width, height: drawView.frame.height))
         drawView.setBackgroundColor(color: UIColor(patternImage: resizedImage))
         dismiss(animated:true, completion: nil)
         
@@ -110,12 +165,27 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
-    func imageResize(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
-        image.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: newSize.width, height: newSize.height)))
-        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        return newImage
+    func imageResize(image: UIImage, size:CGSize) -> UIImage
+    {
+        var scaledImageRect = CGRect.zero;
+        
+        let aspectWidth:CGFloat = size.width / image.size.width;
+        let aspectHeight:CGFloat = size.height / image.size.height;
+        let aspectRatio:CGFloat = min(aspectWidth, aspectHeight);
+        
+        scaledImageRect.size.width = image.size.width * aspectRatio;
+        scaledImageRect.size.height = image.size.height * aspectRatio;
+        scaledImageRect.origin.x = (size.width - scaledImageRect.size.width) / 2.0;
+        scaledImageRect.origin.y = (size.height - scaledImageRect.size.height) / 2.0;
+        
+        UIGraphicsBeginImageContextWithOptions(size, false, 0);
+        
+        image.draw(in: scaledImageRect);
+        
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        return scaledImage!;
     }
     
     @IBAction func PenClicked(_ sender: UIBarButtonItem) {

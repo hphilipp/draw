@@ -78,6 +78,11 @@
                                     <action selector="load:" destination="BYZ-38-t0r" id="SQO-QS-nkD"/>
                                 </connections>
                             </barButtonItem>
+                            <barButtonItem systemItem="camera" id="4xk-he-Z46">
+                                <connections>
+                                    <action selector="camera:" destination="BYZ-38-t0r" id="auA-9p-blS"/>
+                                </connections>
+                            </barButtonItem>
                         </leftBarButtonItems>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="trash" id="rAP-CS-U7N">
@@ -168,7 +173,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ghg-P5-QEn" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="4qf-Jg-PIm">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4qf-Jg-PIm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

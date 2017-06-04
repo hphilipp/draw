@@ -12,7 +12,29 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        performShortcut(message: shortcutItem.localizedTitle)
+        
+        completionHandler(true)
+    }
+    
+    func performShortcut(message: String) {
+        //get NavigationController
+        let navCtrl = window?.rootViewController as! UINavigationController
+        //get ViewController
+        let mainCtrl = navCtrl.viewControllers[0] as! ViewController
+        
+        switch message {
+        case "Gallery":
+            mainCtrl.shortcutGallery()
+        case "Camera":
+            mainCtrl.shortcutCamera()
+        default:
+            break;
+        }
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         

@@ -33,7 +33,7 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func colorSelected(_ sender: UIButton) {
-        let popup = UIAlertController(title: "Hintergrund setzen", message: "Möchten Sie diesen Hintergrund setzen? Dafür wird das Gezeichnete gelöscht.", preferredStyle: .alert)
+        let popup = UIAlertController(title: "Hintergrund setzen", message: "Möchten Sie diesen Hintergrund setzen? Dabei wird das Gezeichnete gelöscht.", preferredStyle: .alert)
         
         let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
         
