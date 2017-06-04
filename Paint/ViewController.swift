@@ -23,7 +23,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
             
             let delete = UIAlertAction(title: "Ja", style: .destructive) { (action) in
-                self.drawView.resetDrawing()
+                self.drawView.resetDrawing(clearBackground: true)
+                if(self.drawView.style == .eraser)
+                {
+                    self.drawView.color = self.drawView.backgroundColor!
+                }
             }
             
             popup.addAction(delete)
@@ -67,15 +71,26 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func load(_ sender: UIBarButtonItem) {
-        guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
-            return
-        }
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.allowsEditing = false
+        let popup = UIAlertController(title: "Hintergrund setzen", message: "Möchten Sie einen Hintergrund setzen? Dabei wird das Gezeichnete gelöscht.", preferredStyle: .alert)
         
-        self.present(imagePicker, animated: true, completion: nil)
+        let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
+        
+        let delete = UIAlertAction(title: "Ja", style: .destructive) { (action) in
+            guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
+                return
+            }
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = false
+            
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+        
+        popup.addAction(delete)
+        popup.addAction(back)
+        
+        present(popup, animated: true)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -88,6 +103,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let resizedImage = imageResize(image: chosenImage, scaledToSize: CGSize(width: drawView.frame.width, height: drawView.frame.height))
         drawView.setBackgroundColor(color: UIColor(patternImage: resizedImage))
         dismiss(animated:true, completion: nil)
+        
+        drawView.resetDrawing(clearBackground: false)
+        if drawView.style == .eraser {
+            self.drawView.color = self.drawView.backgroundColor!
+        }
     }
     
     func imageResize(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
@@ -107,16 +127,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.drawView.setLineStyle(setting: .linear)
             self.penBtn.image = #imageLiteral(resourceName: "Ruler")
             self.drawView.color = self.colorBtn.tintColor!
+            self.colorBtn.isEnabled = true
         }
         let free = UIAlertAction(title: "Freihand", style: .default) { (action) in
             self.drawView.setLineStyle(setting: .freeHand)
             self.penBtn.image = #imageLiteral(resourceName: "Brush")
             self.drawView.color = self.colorBtn.tintColor!
+            self.colorBtn.isEnabled = true
         }
         let eraser = UIAlertAction(title: "Radiergummi", style: .default) { (action) in
-            self.drawView.setLineStyle(setting: .freeHand)
+            self.drawView.setLineStyle(setting: .eraser)
             self.penBtn.image = #imageLiteral(resourceName: "Eraser")
             self.drawView.color = self.drawView.backgroundColor!
+            self.colorBtn.isEnabled = false
         }
         
         
@@ -204,8 +227,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         if let settings = segue.destination as? SettingsViewController{
             settings.delegate = self
         }
-        
-        print ("test");
     }
 }
 
@@ -213,5 +234,14 @@ extension ViewController : SettingsViewControllerDelegate {
     
     func didSelectColor(color: UIColor) {
         drawView.setBackgroundColor(color: color)
+        
+        drawView.resetDrawing(clearBackground: false)
+        if drawView.style == .eraser {
+            self.drawView.color = self.drawView.backgroundColor!
+        }
+    }
+    
+    func didClearForeground(clearBackground: Bool) {
+        drawView.resetDrawing(clearBackground: clearBackground)
     }
 }

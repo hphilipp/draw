@@ -30,10 +30,11 @@ class DrawView : UIView {
     enum lineStyle {
         case linear
         case freeHand
+        case eraser
         //case polygon
     }
     var style = lineStyle.freeHand
-    var color = UIColor.black
+    var color = UIColor.blue
     var lineWidth : CGFloat = 3.0
  
     
@@ -62,9 +63,12 @@ class DrawView : UIView {
         self.lineWidth = CGFloat(width)
     }
     
-    func resetDrawing()
+    func resetDrawing(clearBackground: Bool)
     {
-        self.backgroundColor = UIColor.white;
+        if clearBackground {
+            self.backgroundColor = UIColor.white
+        }
+        
         pathList.removeAll()
         colorList.removeAll()
         redoPathList.removeAll()
@@ -153,7 +157,9 @@ class DrawView : UIView {
                     
                     setNeedsDisplay()
                 }
-            case lineStyle.freeHand:
+        case lineStyle.freeHand:
+            fallthrough
+        case lineStyle.eraser:
                 if let touch = touches.first as UITouch? {
                     let endPoint = touch.location(in: self)
                     

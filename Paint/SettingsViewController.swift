@@ -10,6 +10,8 @@ import UIKit
 
 protocol SettingsViewControllerDelegate : class {
     func didSelectColor(color: UIColor)
+    
+    func didClearForeground(clearBackground: Bool)
 }
 
 class SettingsViewController: UIViewController {
@@ -22,7 +24,7 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let margin : CGFloat = ColorPickerPresenter.bounds.size.width * (1/12);
+        let margin : CGFloat = ColorPickerPresenter.bounds.size.width * (1/6);
         let rect = CGRect(x: margin, y: 0, width: (ColorPickerPresenter.bounds.size.width * (2/3)), height: ColorPickerPresenter.bounds.size.height)
         colorPicker = SwiftHSVColorPicker(frame: rect)
         
@@ -31,7 +33,17 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func colorSelected(_ sender: UIButton) {
+        let popup = UIAlertController(title: "Hintergrund setzen", message: "Möchten Sie diesen Hintergrund setzen? Dafür wird das Gezeichnete gelöscht.", preferredStyle: .alert)
         
-        delegate?.didSelectColor(color: colorPicker.color)
+        let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
+        
+        let delete = UIAlertAction(title: "Ja", style: .destructive) { (action) in
+            self.delegate?.didSelectColor(color: self.colorPicker.color)
+        }
+        
+        popup.addAction(delete)
+        popup.addAction(back)
+        
+        present(popup, animated: true)
     }
 }

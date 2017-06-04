@@ -135,7 +135,8 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yoH-cQ-1CJ">
-                                <rect key="frame" x="143" y="435" width="89" height="30"/>
+                                <rect key="frame" x="116" y="435" width="143" height="42"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Farbe setzen"/>
                                 <connections>
                                     <action selector="colorSelected:" destination="r36-zJ-TLS" eventType="touchUpInside" id="MUv-1j-MVK"/>
@@ -167,7 +168,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ghg-P5-QEn" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4qf-Jg-PIm">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="4qf-Jg-PIm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
