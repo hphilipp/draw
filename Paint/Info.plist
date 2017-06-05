@@ -48,20 +48,24 @@
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeCapturePhoto</string>
 			<key>UIApplicationShortcutItemType</key>
-			<string>com.paint.gallery</string>
+			<string>com.paint.galery</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Gallery</string>
+			<string>Galerie</string>
 			<key>UIApplicationShortcutItemSubtitle</key>
-			<string>Load a picture from your gallery.</string>
+			<string>Lade ein Bild aus der Galerie.</string>
 		</dict>
 		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeBookmark</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>com.paint.camera</string>
 			<key>UIApplicationShortcutItemTitle</key>
-			<string>Camera</string>
+			<string>Kamera</string>
 			<key>UIApplicationShortcutItemSubtitle</key>
-			<string>Use a picture taken with your camera.</string>
+			<string>Mache mit der Kamera ein Bild.</string>
 		</dict>
 	</array>
 </dict>

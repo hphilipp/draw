@@ -72,7 +72,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func load(_ sender: UIBarButtonItem) {
         if drawView.pathList.count > 0 {
-            let popup = UIAlertController(title: "Hintergrund setzen", message: "Möchten Sie einen Hintergrund setzen? Dabei wird das Gezeichnete gelöscht.", preferredStyle: .alert)
+            let popup = UIAlertController(title: "Galerie", message: "Möchten Sie ein Bild aus dem Fotoalbum als Hintergrund auswählen? Dabei wird das Gezeichnete gelöscht.", preferredStyle: .alert)
         
             let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
         
@@ -92,7 +92,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func openGallery() {
         guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
-            Toast.showMessage(message: "Keine Gallerie vorhanden")
+            Toast.showMessage(message: "Keine Galerie vorhanden")
             return
         }
         let imagePicker = UIImagePickerController()
@@ -110,7 +110,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func camera(_ sender: UIBarButtonItem) {
         if drawView.pathList.count > 0 {
-            let popup = UIAlertController(title: "Hintergrund setzen", message: "Möchten Sie einen Hintergrund setzen? Dabei wird das Gezeichnete gelöscht.", preferredStyle: .alert)
+            let popup = UIAlertController(title: "Kamera", message: "Möchten Sie mit der Kamera einen Hintergrund fotografieren? Dabei wird das Gezeichnete gelöscht.", preferredStyle: .alert)
             
             let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
             
@@ -238,7 +238,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         slider.maximumValue = 40
         slider.value = defaultSliderValue
         slider.isContinuous = true
-        slider.tintColor = self.drawView.color
+        if drawView.style == .eraser {
+            slider.tintColor = UIColor.white
+        }
+        else {
+            slider.tintColor = self.drawView.color
+        }
         sliderAlert.view.addSubview(slider)
         
         //OK button action
