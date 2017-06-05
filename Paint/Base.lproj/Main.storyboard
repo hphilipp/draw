@@ -133,14 +133,15 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yvu-tu-StX">
-                                <rect key="frame" x="0.0" y="125" width="375" height="300"/>
+                                <rect key="frame" x="87.5" y="125" width="200" height="280"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="XZq-Th-r1y"/>
+                                    <constraint firstAttribute="width" constant="200" id="06p-Cr-gSt"/>
+                                    <constraint firstAttribute="height" constant="280" id="XZq-Th-r1y"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yoH-cQ-1CJ">
-                                <rect key="frame" x="116" y="435" width="143" height="42"/>
+                                <rect key="frame" x="116" y="415" width="143" height="42"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Farbe setzen"/>
                                 <connections>
@@ -156,7 +157,6 @@
                             <constraint firstItem="yvu-tu-StX" firstAttribute="centerX" secondItem="PdJ-q1-irD" secondAttribute="centerX" id="Sjq-9N-30Y"/>
                             <constraint firstItem="yvu-tu-StX" firstAttribute="top" secondItem="w9G-MR-veW" secondAttribute="bottom" constant="10" id="Y8F-aO-H6c"/>
                             <constraint firstItem="w9G-MR-veW" firstAttribute="centerX" secondItem="PdJ-q1-irD" secondAttribute="centerX" id="tH0-7Z-Vez"/>
-                            <constraint firstItem="yvu-tu-StX" firstAttribute="width" secondItem="PdJ-q1-irD" secondAttribute="width" id="x0m-eJ-Le6"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Einstellungen" id="YxJ-89-jbL"/>

@@ -26,10 +26,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let mainCtrl = navCtrl.viewControllers[0] as! ViewController
         
         switch message {
-        case "Gallery":
-            mainCtrl.shortcutGallery()
-        case "Camera":
-            mainCtrl.shortcutCamera()
+        case "Galerie":
+            mainCtrl.openGallery()
+        case "Kamera":
+            mainCtrl.openCamera()
         default:
             break;
         }

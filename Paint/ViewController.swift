@@ -72,7 +72,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func load(_ sender: UIBarButtonItem) {
         if drawView.pathList.count > 0 {
-            let popup = UIAlertController(title: "Galerie", message: "Möchten Sie ein Bild aus dem Fotoalbum als Hintergrund auswählen? Dabei wird das Gezeichnete gelöscht.", preferredStyle: .alert)
+            let popup = UIAlertController(title: "Galerie", message: "Möchten Sie ein Bild aus dem Fotoalbum als Hintergrund auswählen?\n Dabei wird das Gezeichnete gelöscht.", preferredStyle: .alert)
         
             let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
         
@@ -103,14 +103,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.present(imagePicker, animated: true, completion: nil)
     }
     
-    //func for 3d touch shortcut
-    func shortcutGallery() {
-        openGallery()
-    }
-    
     @IBAction func camera(_ sender: UIBarButtonItem) {
         if drawView.pathList.count > 0 {
-            let popup = UIAlertController(title: "Kamera", message: "Möchten Sie mit der Kamera einen Hintergrund fotografieren? Dabei wird das Gezeichnete gelöscht.", preferredStyle: .alert)
+            let popup = UIAlertController(title: "Kamera", message: "Möchten Sie mit der Kamera einen Hintergrund aufnehmen?\n Dabei wird das Gezeichnete gelöscht.", preferredStyle: .alert)
             
             let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
             
@@ -141,11 +136,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         imagePicker.modalPresentationStyle = .fullScreen
         
         self.present(imagePicker, animated: true, completion: nil)
-    }
-    
-    // func for 3d touch shortcut
-    func shortcutCamera() {
-        openCamera()
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -264,9 +254,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     
     @IBAction func ColorClicked(_ sender: UIBarButtonItem) {
-        let popup = UIAlertController(title: "Farbauswahl", message: "Wählen sie die gewünschte Farbe\n\n\n\n\n\n\n\n\n\n\n\n\n", preferredStyle: .actionSheet)
+        let popup = UIAlertController(title: "Farbauswahl", message: "Wählen Sie die gewünschte Farbe\n\n\n\n\n\n\n\n\n\n\n\n\n", preferredStyle: .actionSheet)
         
-        //credits to johankasperi
+        //credits for colorpicer to johankasperi
         let margin:CGFloat = 10.0
         let rect = CGRect(x: margin, y: 80, width: popup.view.bounds.size.width - margin * 4.0, height: 220)
         let colorPicker = SwiftHSVColorPicker(frame: rect)

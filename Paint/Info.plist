@@ -49,7 +49,7 @@
 	<array>
 		<dict>
 			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeCapturePhoto</string>
+			<string>UIApplicationShortcutIconTypeBookmark</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>com.paint.galery</string>
 			<key>UIApplicationShortcutItemTitle</key>
@@ -59,7 +59,7 @@
 		</dict>
 		<dict>
 			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeBookmark</string>
+			<string>UIApplicationShortcutIconTypeCapturePhoto</string>
 			<key>UIApplicationShortcutItemType</key>
 			<string>com.paint.camera</string>
 			<key>UIApplicationShortcutItemTitle</key>

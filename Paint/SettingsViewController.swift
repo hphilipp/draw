@@ -24,9 +24,12 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let margin : CGFloat = ColorPickerPresenter.bounds.size.width * (1/6);
-        let rect = CGRect(x: margin, y: 0, width: (ColorPickerPresenter.bounds.size.width * (2/3)), height: ColorPickerPresenter.bounds.size.height)
+        let rect = CGRect(x: 0, y: 0, width: 200, height: 280)
         colorPicker = SwiftHSVColorPicker(frame: rect)
+        
+        /*let margin : CGFloat = ColorPickerPresenter.bounds.size.width * (1/6);
+        let rect = CGRect(x: margin, y: 0, width: (ColorPickerPresenter.bounds.size.width * (2/3)), height: ColorPickerPresenter.bounds.size.height)
+        colorPicker = SwiftHSVColorPicker(frame: rect)*/
         
         ColorPickerPresenter.addSubview(colorPicker)
         colorPicker.setViewColor(UIColor.red)
