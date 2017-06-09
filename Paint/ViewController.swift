@@ -14,11 +14,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var penBtn: UIBarButtonItem!
     @IBOutlet var widthButton: UIBarButtonItem!
     
-    let settingsViewController = SettingsViewController();
-    
     @IBAction func resetDrawing(_ sender: UIBarButtonItem) {
         if drawView.pathList.count > 0 || drawView.backgroundColor != UIColor.white {
-            let popup = UIAlertController(title: "Bild löschen", message: "Möchten Sie wirklich das gesamte Bild löschen?", preferredStyle: .alert)
+            let popup = UIAlertController(title: "Bild löschen", message: "Möchten Sie wirklich das Gezeichnete samt Hintergrund löschen?", preferredStyle: .alert)
             
             let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
             
@@ -41,10 +39,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func Redo(_ sender: UIBarButtonItem) {
-        drawView.redoPath()
+        if drawView.redoPathList.count > 0 {
+            drawView.redoPath()
+        }
+        else {
+            Toast.showMessage(message: "Redo nicht möglich")
+        }
     }
     @IBAction func Undo(_ sender: UIBarButtonItem) {
-        drawView.undoPath()
+        if drawView.actualPathNumber > 0 {
+            drawView.undoPath()
+        }
+        else {
+            Toast.showMessage(message: "Undo nicht möglich")
+        }
     }
     
     @IBAction func save(_ sender: UIBarButtonItem) {
@@ -73,16 +81,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func load(_ sender: UIBarButtonItem) {
         if drawView.pathList.count > 0 {
             let popup = UIAlertController(title: "Galerie", message: "Möchten Sie ein Bild aus dem Fotoalbum als Hintergrund auswählen?\n Dabei wird das Gezeichnete gelöscht.", preferredStyle: .alert)
-        
+            
             let back = UIAlertAction(title: "Nein", style: .cancel, handler: nil)
-        
+            
             let delete = UIAlertAction(title: "Ja", style: .destructive) { (action) in
                 self.openGallery()
             }
-        
+            
             popup.addAction(delete)
             popup.addAction(back)
-        
+            
             present(popup, animated: true)
         }
         else {
@@ -90,6 +98,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
+    // open the fotogallery to choose a photo
     func openGallery() {
         guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
             Toast.showMessage(message: "Keine Galerie vorhanden")
@@ -123,6 +132,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
+    // open the camera to take a photo and use it as the background
     func openCamera() {
         guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
             Toast.showMessage(message: "Keine Kamera vorhanden")
@@ -142,6 +152,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         dismiss(animated: true, completion: nil)
     }
     
+    // if a color was picked, resize it and set it as the background
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any])
     {
         let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
@@ -155,6 +166,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
+    // resizes the image to fit the width of the device screen. Otherwise it would only be a small part of the picture.
     func imageResize(image: UIImage, size:CGSize) -> UIImage
     {
         var scaledImageRect = CGRect.zero;
@@ -172,10 +184,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         image.draw(in: scaledImageRect);
         
-        let scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+        let scaledImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!;
         UIGraphicsEndImageContext();
         
-        return scaledImage!;
+        return scaledImage;
     }
     
     @IBAction func PenClicked(_ sender: UIBarButtonItem) {
@@ -205,8 +217,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         popup.addAction(linear)
         popup.addAction(free)
-        popup.addAction(back)
         popup.addAction(eraser)
+        popup.addAction(back)
         
         present(popup, animated: true)
     }
@@ -283,12 +295,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        settingsViewController.delegate = self;
-        
         colorBtn.tintColor = drawView.color
     }
     
+    // set the delegate of the settingsViewController to this viewcontroller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //check if the segue destination is the settingsViewController
         if let settings = segue.destination as? SettingsViewController{
             settings.delegate = self
         }
@@ -297,6 +309,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
 extension ViewController : SettingsViewControllerDelegate {
     
+    // implementation of the delegate functions
     func didSelectColor(color: UIColor) {
         drawView.setBackgroundColor(color: color)
         

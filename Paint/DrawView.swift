@@ -9,19 +9,11 @@
 import UIKit
 
 class DrawView : UIView {
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
     
     var pathList : [UIBezierPath] = []
     var startPoint: CGPoint!
     var actualPath: UIBezierPath!
-    var actualPathNumber = 0
+    var actualPathNumber = 0 //actually you could also use the last path in pathlist (then you would not have to handle this variable)
     var colorList : [UIColor] = []
     var roundedEdges = true
     var redoPathList : [UIBezierPath] = []
@@ -36,7 +28,7 @@ class DrawView : UIView {
     var style = lineStyle.freeHand
     var color = UIColor.blue
     var lineWidth : CGFloat = 3.0
- 
+    
     
     func setLineStyle(setting : lineStyle)
     {
@@ -79,34 +71,28 @@ class DrawView : UIView {
     
     func undoPath()
     {
-        if actualPathNumber > 0 {
-            redoPathList.append(pathList.removeLast())
-            redoColorList.append(colorList.removeLast())
-            actualPathNumber = actualPathNumber - 1
-            setNeedsDisplay()
-        }
-        else {
-            Toast.showMessage(message: "Undo nicht möglich")
-        }
+        redoPathList.append(pathList.removeLast())
+        redoColorList.append(colorList.removeLast())
+        actualPathNumber = actualPathNumber - 1
+        setNeedsDisplay()
     }
     
     func redoPath()
     {
-        if redoPathList.count > 0 {
-            pathList.append(redoPathList.removeLast())
-            colorList.append(redoColorList.removeLast())
-            actualPathNumber = actualPathNumber + 1
-            setNeedsDisplay()
-        }
-        else {
-            Toast.showMessage(message: "Redo nicht möglich")
-        }
+        pathList.append(redoPathList.removeLast())
+        colorList.append(redoColorList.removeLast())
+        actualPathNumber = actualPathNumber + 1
+        setNeedsDisplay()
     }
     
+    // func that is called when you touch the screen
     override func touchesBegan(_ touches: Set<UITouch>,
-                      with event: UIEvent?)
+                               with event: UIEvent?)
     {
         if let touch = touches.first as UITouch? {
+            //create new path with all chracteristics and append it to the pathlist
+            //set the startposition to the position of the touch
+            
             startPoint = touch.location(in: self)
             
             actualPath = UIBezierPath()
@@ -124,15 +110,6 @@ class DrawView : UIView {
                 actualPath.lineCapStyle = .square
             }
         }
-        
-        
-        /*
-        let renderer = UIGraphicsImageRenderer(size: frame.size)
-        
-        let image = renderer.image { ctx in
-            
-        }
-        */
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
@@ -140,82 +117,43 @@ class DrawView : UIView {
         actualPathNumber = actualPathNumber + 1
     }
     
+    // func that handles the different line styles
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         switch style {
-            case lineStyle.linear:
-                if let touch = touches.first as UITouch? {
-                    let endPoint = touch.location(in: self)
-                    
-                    pathList[actualPathNumber] = { () -> UIBezierPath in
-                        let tempPath = UIBezierPath()
-                        tempPath.lineWidth = lineWidth
-                        tempPath.move(to: startPoint)
-                        tempPath.addLine(to: endPoint)
-                        return tempPath
-                    }()
-                    
-                    setNeedsDisplay()
-                }
+            // redraw a new line from starting point to the position of the touch
+        // path always consists of only two points
+        case lineStyle.linear:
+            if let touch = touches.first as UITouch? {
+                let endPoint = touch.location(in: self)
+                
+                pathList[actualPathNumber] = { () -> UIBezierPath in
+                    let tempPath = UIBezierPath()
+                    tempPath.lineWidth = lineWidth
+                    tempPath.move(to: startPoint)
+                    tempPath.addLine(to: endPoint)
+                    return tempPath
+                }()
+                
+                setNeedsDisplay()
+            }
+            // add the position of the touch to the path as a new point
+        // path can consist of many points
         case lineStyle.freeHand:
+            // same as eraser (differentiation is used for different purpose)
             fallthrough
         case lineStyle.eraser:
-                if let touch = touches.first as UITouch? {
-                    let endPoint = touch.location(in: self)
-                    
-                    actualPath.addLine(to: endPoint)
-                    setNeedsDisplay()
-                }
+            if let touch = touches.first as UITouch? {
+                let endPoint = touch.location(in: self)
+                
+                actualPath.addLine(to: endPoint)
+                setNeedsDisplay()
+            }
         }
     }
-
-
     
     override func draw(_ rect: CGRect) {
-        /*
-        var path = UIBezierPath(ovalIn: rect)
-        UIColor.green.setFill()
-        path.fill()
-        //set up the width and height variables
-        //for the horizontal stroke
-        let plusHeight: CGFloat = 3.0
-        let plusWidth: CGFloat = min(bounds.width, bounds.height) * 0.6
-        
-        //create the path
-        var plusPath = UIBezierPath()
-        
-        //set the path's line width to the height of the stroke
-        plusPath.lineWidth = plusHeight
-        
-        //move the initial point of the path
-        //to the start of the horizontal stroke
-        plusPath.move(to: CGPoint(
-            x:bounds.width/2 - plusWidth/2,
-            y:bounds.height/2))
-        
-        //add a point to the path at the end of the stroke
-        plusPath.addLine(to: CGPoint(
-            x:bounds.width/2 + plusWidth/2,
-            y:bounds.height/2))
-        
-        //add a point to the path at the end of the stroke
-        plusPath.addLine(to: CGPoint(
-            x:bounds.width/2,
-            y:bounds.height/4))
-        
-        //move the initial point of the path
-        //to the start of the horizontal stroke
-        plusPath.addLine(to: CGPoint(
-            x:bounds.width/2 - plusWidth/2,
-            y:bounds.height/2))
-        
-        //set the stroke color
-        UIColor.white.setStroke()
-        
-        //draw the stroke
-        pathList.append(plusPath)
-        */
-        
+        // go through all paths and display them with their belonging color
         for i in 0 ..< pathList.count {
             colorList[i].setStroke()
             pathList[i].stroke()
@@ -225,8 +163,7 @@ class DrawView : UIView {
 
 extension UIView {
     
-    // Using a function since `var image` might conflict with an existing variable
-    // (like on `UIImageView`)
+    // generates an UIImage out of the content in drawView
     func asImage() -> UIImage {
         let renderer = UIGraphicsImageRenderer(bounds: bounds)
         return renderer.image { rendererContext in
